@@ -1,2 +1,2 @@
 # N-Pochna
-N'Pochna Line Bot integrated with Rapid API
+🍳 N'Pochna Line Bot integrated with Rapid API
