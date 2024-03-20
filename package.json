@@ -1,0 +1,27 @@
+{
+  "name": "n-pochna",
+  "version": "1.0.0",
+  "description": "N'Pochna Line Bot integrated with Rapid API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeanNachapat/N-Pochna.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeanNachapat/N-Pochna/issues"
+  },
+  "homepage": "https://github.com/SeanNachapat/N-Pochna#readme",
+  "dependencies": {
+    "@line/bot-sdk": "^9.0.3",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3"
+  },
+  "devDependencies": {}
+}
