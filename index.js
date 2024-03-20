@@ -10,6 +10,8 @@ const lineConfig = {
     channelAccessToken: env.ACCESS_TOKEN,
     channelSecret: env.SECRET_TOKEN
 }
+//create client
+const client =  new line.Client(lineConfig);
 
 app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
     try {
@@ -23,7 +25,13 @@ app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
 });
 
 const handleEvent = async (event) => {
-    console.log(event)
+    if(event.type !== 'message' || event.message.type !== 'text'){
+        return null;
+    }
+    else if(event.type === 'message'){
+        return client.replyMessage(event.replyToken,{type:'text',text:'Test'})
+    }
+    
 }
 
 app.listen(4000, () => {
