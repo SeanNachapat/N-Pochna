@@ -19,7 +19,16 @@ app.post("/webhook", line.middleware(lineConfig), async (req, res) => {
         const events = req.body.events;
         console.log("events =>", events);
 
-        await Promise.all(events.map(async (event) => handleEvent(event)));
+        await Promise.all(events.map(async (event) => {
+            if (event.type === "message" && event.message.type === "text") {
+              if (event.message.text === "test flex message") {
+                await sendFlexMessage(event.replyToken);
+              } else {
+                await handleEvent(event);
+              }
+            }
+          }));
+      
         res.status(200).send("OK");
     } catch (error) {
         console.error(error);
@@ -93,6 +102,42 @@ const handleEvent = async (event) => {
     }
 };
 
+const sendFlexMessage = async (replyToken) => {
+    const flexMessage = {
+      type: "flex",
+      altText: "This is a flex message",
+      contents: {
+        type: "bubble",
+        direction: "ltr",
+        body: {
+          type: "box",
+          layout: "vertical",
+          contents: [
+            {
+              type: "text",
+              text: "This is a Flex Message",
+              weight: "bold",
+              size: "lg",
+            },
+            {
+              type: "image",
+              url: "https://via.placeholder.com/300x300", // Replace with your image URL
+              size: "full",
+            },
+            {
+              type: "text",
+              text: "This is some text content",
+              wrap: true,
+              size: "md",
+            },
+          ],
+        },
+      },
+    };
+  
+    await client.replyMessage(replyToken, flexMessage);
+  };
+  
 app.listen(4000, () => {
     console.log("Server listening on port 4000");
 });
