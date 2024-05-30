@@ -56,14 +56,14 @@ const handleEvent = async (event) => {
             const recipeImage = firstRecipe.image; // URL of the recipe image
             const recipeLink = firstRecipe.url;
             const nutrients = firstRecipe.totalNutrients; // This line fetches the nutrients object
-            const healths = firstRecipe.Health;
+            const servings = firstRecipe.yield;
 
             // Extract relevant nutrients (modify as needed)
             const calories = Math.round(nutrients.ENERC_KCAL.quantity);
             const carbs = Math.round(nutrients.CHOCDF.quantity);
             const fat = Math.round(nutrients.FAT.quantity);
             const protein = Math.round(nutrients.PROCNT.quantity);
-
+            
             const replyMessage = [
                 /*{
                     type: "image",
@@ -95,7 +95,7 @@ const handleEvent = async (event) => {
                       aspectMode: "cover",
                       action: {
                         type: "uri",
-                        uri: "https://line.me/"
+                        uri: recipeLink
                       }
                     },
                     body: {
@@ -104,22 +104,19 @@ const handleEvent = async (event) => {
                       spacing: "xs",
                       action: {
                         type: "uri",
-                        uri: "https://line.me/"
+                        uri: recipeLink
                       },
                       contents: [
                         {
                           type: "text",
                           text: recipeTitle,
                           size: "xl",
-                          weight: "bold",
-                          offsetBottom: "none",
-                          offsetTop: "none"
+                          weight: "bold"
                         },
                         {
                           type: "text",
-                          text: "1 serving",
-                          size: "sm",
-                          offsetBottom: "none"
+                          text: `${servings} serving`,
+                          size: "sm"
                         },
                         {
                           type: "box",
@@ -127,7 +124,7 @@ const handleEvent = async (event) => {
                           contents: [
                             {
                               type: "text",
-                              text: "780",
+                              text: `${calories}`,
                               weight: "bold",
                               decoration: "none",
                               style: "normal",
@@ -135,9 +132,7 @@ const handleEvent = async (event) => {
                               margin: "xxl",
                               size: "xxl",
                               offsetEnd: "xs",
-                              gravity: "bottom",
-                              flex: 1,
-                              offsetStart: "none"
+                              gravity: "bottom"
                             },
                             {
                               type: "text",
@@ -177,7 +172,7 @@ const handleEvent = async (event) => {
                                 },
                                 {
                                   type: "text",
-                                  text: "40",
+                                  text: `${protein}`,
                                   margin: "xxl",
                                   weight: "bold",
                                   align: "end",
@@ -212,7 +207,7 @@ const handleEvent = async (event) => {
                                 },
                                 {
                                   type: "text",
-                                  text: "40",
+                                  text: `${fat}`,
                                   flex: 1,
                                   margin: "xxl",
                                   weight: "bold",
@@ -247,7 +242,7 @@ const handleEvent = async (event) => {
                                 },
                                 {
                                   type: "text",
-                                  text: "100",
+                                  text: `${carbs}`,
                                   flex: 1,
                                   margin: "xxl",
                                   weight: "bold",
@@ -288,7 +283,7 @@ const handleEvent = async (event) => {
                           action: {
                             type: "uri",
                             label: "View Recipe",
-                            uri: "https://line.me/"
+                            uri: recipeLink
                           }
                         }
                       ]
