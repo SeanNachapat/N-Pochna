@@ -56,6 +56,7 @@ const handleEvent = async (event) => {
             const recipeImage = firstRecipe.image; // URL of the recipe image
             const recipeLink = firstRecipe.url;
             const nutrients = firstRecipe.totalNutrients; // This line fetches the nutrients object
+            const healths = firstRecipe.Health;
 
             // Extract relevant nutrients (modify as needed)
             const calories = Math.round(nutrients.ENERC_KCAL.quantity);
@@ -64,7 +65,7 @@ const handleEvent = async (event) => {
             const protein = Math.round(nutrients.PROCNT.quantity);
 
             const replyMessage = [
-                {
+                /*{
                     type: "image",
                     originalContentUrl: recipeImage,
                     previewImageUrl: recipeImage,
@@ -80,7 +81,221 @@ const handleEvent = async (event) => {
                         `Carbs: ${carbs}g\n` +
                         `Fat: ${fat}g\n` +
                         `Protein: ${protein}g`,
-                },
+                },*/
+                {
+                  type: "flex",
+                  altText: "This is a flex message",
+                  contents: {
+                    type: "bubble",
+                    hero: {
+                      type: "image",
+                      url: recipeImage,
+                      size: "full",
+                      aspectRatio: "3:2",
+                      aspectMode: "cover",
+                      action: {
+                        type: "uri",
+                        uri: "https://line.me/"
+                      }
+                    },
+                    body: {
+                      type: "box",
+                      layout: "vertical",
+                      spacing: "xs",
+                      action: {
+                        type: "uri",
+                        uri: "https://line.me/"
+                      },
+                      contents: [
+                        {
+                          type: "text",
+                          text: recipeTitle,
+                          size: "xl",
+                          weight: "bold",
+                          offsetBottom: "none",
+                          offsetTop: "none"
+                        },
+                        {
+                          type: "text",
+                          text: "1 serving",
+                          size: "sm",
+                          offsetBottom: "none"
+                        },
+                        {
+                          type: "box",
+                          layout: "horizontal",
+                          contents: [
+                            {
+                              type: "text",
+                              text: "780",
+                              weight: "bold",
+                              decoration: "none",
+                              style: "normal",
+                              align: "end",
+                              margin: "xxl",
+                              size: "xxl",
+                              offsetEnd: "xs",
+                              gravity: "bottom",
+                              flex: 1,
+                              offsetStart: "none"
+                            },
+                            {
+                              type: "text",
+                              text: "kcal",
+                              align: "start",
+                              gravity: "bottom",
+                              offsetBottom: "md",
+                              offsetStart: "xs"
+                            }
+                          ],
+                          spacing: "none"
+                        },
+                        {
+                          type: "box",
+                          layout: "vertical",
+                          spacing: "md",
+                          contents: [
+                            {
+                              type: "box",
+                              layout: "baseline",
+                              contents: [
+                                {
+                                  type: "icon",
+                                  url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Eo_circle_green_blank.svg/512px-Eo_circle_green_blank.svg.png?20200417132254",
+                                  size: "xxs",
+                                  offsetTop: "none",
+                                  offsetEnd: "none",
+                                  offsetBottom: "none"
+                                },
+                                {
+                                  type: "text",
+                                  text: "Protein",
+                                  weight: "regular",
+                                  margin: "sm",
+                                  flex: 6,
+                                  size: "sm"
+                                },
+                                {
+                                  type: "text",
+                                  text: "40",
+                                  margin: "xxl",
+                                  weight: "bold",
+                                  align: "end",
+                                  offsetStart: "md"
+                                },
+                                {
+                                  type: "text",
+                                  text: "g",
+                                  size: "sm",
+                                  align: "end",
+                                  color: "#aaaaaa",
+                                  margin: "none"
+                                }
+                              ]
+                            },
+                            {
+                              type: "box",
+                              layout: "baseline",
+                              contents: [
+                                {
+                                  type: "icon",
+                                  url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Eo_circle_yellow_blank.svg/512px-Eo_circle_yellow_blank.svg.png?20200417182734",
+                                  size: "xxs"
+                                },
+                                {
+                                  type: "text",
+                                  text: "Fat",
+                                  weight: "regular",
+                                  margin: "sm",
+                                  flex: 6,
+                                  size: "sm"
+                                },
+                                {
+                                  type: "text",
+                                  text: "40",
+                                  flex: 1,
+                                  margin: "xxl",
+                                  weight: "bold",
+                                  align: "end",
+                                  offsetStart: "md"
+                                },
+                                {
+                                  type: "text",
+                                  text: "g",
+                                  size: "sm",
+                                  align: "end",
+                                  color: "#aaaaaa"
+                                }
+                              ]
+                            },
+                            {
+                              type: "box",
+                              layout: "baseline",
+                              contents: [
+                                {
+                                  type: "icon",
+                                  url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Eo_circle_red_blank.svg/512px-Eo_circle_red_blank.svg.png?20200417173208",
+                                  size: "xxs"
+                                },
+                                {
+                                  type: "text",
+                                  text: "Carb",
+                                  weight: "regular",
+                                  margin: "sm",
+                                  flex: 6,
+                                  size: "sm"
+                                },
+                                {
+                                  type: "text",
+                                  text: "100",
+                                  flex: 1,
+                                  margin: "xxl",
+                                  weight: "bold",
+                                  align: "end",
+                                  offsetEnd: "none",
+                                  offsetStart: "md"
+                                },
+                                {
+                                  type: "text",
+                                  text: "g",
+                                  size: "sm",
+                                  align: "end",
+                                  color: "#aaaaaa"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          type: "text",
+                          text: "Sauce, Onions, Pickles, Lettuce & CheeseSauce, Onions, Pickles, Lettuce & CheeseSauce, Onions, Pickles, Lettuce & Cheese",
+                          wrap: true,
+                          color: "#aaaaaa",
+                          size: "xxs",
+                          maxLines: 2
+                        }
+                      ]
+                    },
+                    footer: {
+                      type: "box",
+                      layout: "vertical",
+                      contents: [
+                        {
+                          type: "button",
+                          style: "primary",
+                          color: "#76BD43",
+                          margin: "none",
+                          action: {
+                            type: "uri",
+                            label: "View Recipe",
+                            uri: "https://line.me/"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                }
+                
             ];
 
             await client.replyMessage(event.replyToken, replyMessage);
