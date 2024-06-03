@@ -11,7 +11,6 @@ const lineConfig = {
     channelSecret: env.SECRET_TOKEN,
 };
 
-// Create LINE client
 const client = new line.Client(lineConfig);
 
 app.post("/webhook", line.middleware(lineConfig), async (req, res) => {
@@ -53,35 +52,27 @@ const handleEvent = async (event) => {
         if (data.more) {
             const firstRecipe = data.hits[0].recipe;
             const recipeTitle = firstRecipe.label;
-            const recipeImage = firstRecipe.image; // URL of the recipe image
+            const recipeImage = firstRecipe.image; 
             const recipeLink = firstRecipe.url;
-            const nutrients = firstRecipe.totalNutrients; // This line fetches the nutrients object
-            const servings = firstRecipe.yield;
-
-            // Extract relevant nutrients (modify as needed)
-            const calories = Math.round(nutrients.ENERC_KCAL.quantity);
-            const carbs = Math.round(nutrients.CHOCDF.quantity);
-            const fat = Math.round(nutrients.FAT.quantity);
-            const protein = Math.round(nutrients.PROCNT.quantity);
+            const nutrients = firstRecipe.totalNutrients; 
             
+            const servings = Math.round(firstRecipe.yield / firstRecipe.yield);
+            const calories = Math.round(nutrients.ENERC_KCAL.quantity / firstRecipe.yield);
+            const carbs = Math.round(nutrients.CHOCDF.quantity / firstRecipe.yield);
+            const fat = Math.round(nutrients.FAT.quantity / firstRecipe.yield);
+            const protein = Math.round(nutrients.PROCNT.quantity / firstRecipe.yield);
+
+            const dietLabels = firstRecipe.dietLabels || [];
+            const allergenLabels = firstRecipe.healthLabels || [];
+
+            const getAllLabels = (labels) => (labels.length > 0 ? labels.join(" · ") : "");
+            
+            const formattedDietLabels = getAllLabels(dietLabels);
+            const formattedAllergenLabels = getAllLabels(allergenLabels);
+
+
+
             const replyMessage = [
-                /*{
-                    type: "image",
-                    originalContentUrl: recipeImage,
-                    previewImageUrl: recipeImage,
-                },
-                {
-                    type: "text",
-                    text:
-                        `Here's a recipe for "${event.message.text}":\n` +
-                        `${recipeTitle}\n` +
-                        `${recipeLink}\n\n` +
-                        `Nutritional Info:\n` +
-                        `Calories: ${calories}kcal\n` +
-                        `Carbs: ${carbs}g\n` +
-                        `Fat: ${fat}g\n` +
-                        `Protein: ${protein}g`,
-                },*/
                 {
                   type: "flex",
                   altText: "This is a flex message",
@@ -115,7 +106,7 @@ const handleEvent = async (event) => {
                         },
                         {
                           type: "text",
-                          text: `${servings} serving`,
+                          text: `${servings / servings} serving`,
                           size: "sm"
                         },
                         {
@@ -124,7 +115,7 @@ const handleEvent = async (event) => {
                           contents: [
                             {
                               type: "text",
-                              text: `${calories}`,
+                              text: `${calories / servings}`,
                               weight: "bold",
                               decoration: "none",
                               style: "normal",
@@ -172,7 +163,7 @@ const handleEvent = async (event) => {
                                 },
                                 {
                                   type: "text",
-                                  text: `${protein}`,
+                                  text: `${protein / servings}`,
                                   margin: "xxl",
                                   weight: "bold",
                                   align: "end",
@@ -207,7 +198,7 @@ const handleEvent = async (event) => {
                                 },
                                 {
                                   type: "text",
-                                  text: `${fat}`,
+                                  text: `${fat / servings}`,
                                   flex: 1,
                                   margin: "xxl",
                                   weight: "bold",
@@ -242,7 +233,7 @@ const handleEvent = async (event) => {
                                 },
                                 {
                                   type: "text",
-                                  text: `${carbs}`,
+                                  text: `${carbs / servings}`,
                                   flex: 1,
                                   margin: "xxl",
                                   weight: "bold",
@@ -263,7 +254,8 @@ const handleEvent = async (event) => {
                         },
                         {
                           type: "text",
-                          text: "Sauce, Onions, Pickles, Lettuce & CheeseSauce, Onions, Pickles, Lettuce & CheeseSauce, Onions, Pickles, Lettuce & Cheese",
+                          text: `${formattedAllergenLabels}` +
+                                `${formattedDietLabels}`,
                           wrap: true,
                           color: "#aaaaaa",
                           size: "xxs",
@@ -311,43 +303,6 @@ const handleEvent = async (event) => {
         });
     }
 };
-
-const sendFlexMessage = async (replyToken) => {
-    const flexMessage = {
-      type: "flex",
-      altText: "This is a flex message",
-      contents: {
-        type: "bubble",
-        direction: "ltr",
-        body: {
-          type: "box",
-          layout: "vertical",
-          contents: [
-            {
-              type: "text",
-              text: "This is a Flex Message",
-              weight: "bold",
-              size: "lg",
-            },
-            {
-              type: "image",
-              url: "https://via.placeholder.com/300x300", // Replace with your image URL
-              size: "full",
-            },
-            {
-              type: "text",
-              text: "This is some text content",
-              wrap: true,
-              size: "md",
-            },
-          ],
-        },
-      },
-    };
-  
-    await client.replyMessage(replyToken, flexMessage);
-  };
-  
 app.listen(4000, () => {
     console.log("Server listening on port 4000");
 });
