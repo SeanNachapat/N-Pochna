@@ -18,16 +18,7 @@ app.post("/webhook", line.middleware(lineConfig), async (req, res) => {
         const events = req.body.events;
         console.log("events =>", events);
 
-        await Promise.all(events.map(async (event) => {
-            if (event.type === "message" && event.message.type === "text") {
-              if (event.message.text === "test flex message") {
-                await sendFlexMessage(event.replyToken);
-              } else {
-                await handleEvent(event);
-              }
-            }
-          }));
-      
+        await Promise.all(events.map(async (event) => handleEvent(event)));
         res.status(200).send("OK");
     } catch (error) {
         console.error(error);
