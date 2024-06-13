@@ -61,7 +61,9 @@ const handleEvent = async (event) => {
             const formattedDietLabels = getAllLabels(dietLabels);
             const formattedAllergenLabels = getAllLabels(allergenLabels);
 
-
+            const walking = Math.round(calories / 100 * 1.6);
+            const running = Math.round(calories / 60);
+            const biking = Math.round(calories / 100 * 10)
 
             const replyMessage = [
                 {
@@ -70,15 +72,26 @@ const handleEvent = async (event) => {
                   contents: {
                     type: "bubble",
                     hero: {
-                      type: "image",
-                      url: recipeImage,
-                      size: "full",
-                      aspectRatio: "3:2",
-                      aspectMode: "cover",
-                      action: {
-                        type: "uri",
-                        uri: recipeLink
-                      }
+                      type: "box",
+                      layout: "vertical",
+                      contents: [
+                        {
+                          type: "image",
+                          url: recipeImage,
+                          size: "full",
+                          aspectRatio: "3:2",
+                          aspectMode: "cover"
+                        },
+                        {
+                          type: "image",
+                          url: "https://media.discordapp.net/attachments/1128691062626594908/1250833533103116338/Untitled55_20240613222456.png?ex=666c6101&is=666b0f81&hm=5fe9ae2ef101c3be42322da1797ae94e4ee9e9f54662a91fd82ba719834d510b&=&format=webp&quality=lossless&width=479&height=701",
+                          position: "absolute",
+                          size: "170px",
+                          aspectMode: "fit",
+                          offsetStart: "150px",
+                          offsetTop: "30px"
+                        }
+                      ]
                     },
                     body: {
                       type: "box",
@@ -126,6 +139,76 @@ const handleEvent = async (event) => {
                             }
                           ],
                           spacing: "none"
+                        },
+                        {
+                          type: "box",
+                          layout: "horizontal",
+                          contents: [
+                            {
+                              type: "image",
+                              url: "https://media.discordapp.net/attachments/1128691062626594908/1250826209231634562/walking_1.png?ex=666c5a2f&is=666b08af&hm=b901082517956afca9728dad61313f33731e7c82ef26da11cba280ddcf3a3dc4&=&format=webp&quality=lossless",
+                              size: "xxs"
+                            },
+                            {
+                              type: "box",
+                              layout: "vertical",
+                              contents: [
+                                {
+                                  type: "text",
+                                  text: `${walking}`
+                                },
+                                {
+                                  type: "text",
+                                  text: "Km",
+                                  color: "#aaaaaa",
+                                  size: "sm"
+                                }
+                              ]
+                            },
+                            {
+                              type: "image",
+                              url: "https://media.discordapp.net/attachments/1128691062626594908/1250826001622237304/running.png?ex=666c59fe&is=666b087e&hm=a83e40871de08b9d9e1b14711c100b0a7e984b81d24b557000460c94a71c3b44&=&format=webp&quality=lossless",
+                              size: "xxs"
+                            },
+                            {
+                              type: "box",
+                              layout: "vertical",
+                              contents: [
+                                {
+                                  type: "text",
+                                  text: `${running}`
+                                },
+                                {
+                                  type: "text",
+                                  text: "Km",
+                                  color: "#aaaaaa",
+                                  size: "sm"
+                                }
+                              ]
+                            },
+                            {
+                              type: "image",
+                              url: "https://media.discordapp.net/attachments/1128691062626594908/1250826001915707482/bike.png?ex=666c59fe&is=666b087e&hm=8b8de306d686555da66f53d698c1cf7adcc182c6a4d0975bfff5236ba57e7bbd&=&format=webp&quality=lossless",
+                              size: "xxs"
+                            },
+                            {
+                              type: "box",
+                              layout: "vertical",
+                              contents: [
+                                {
+                                  type: "text",
+                                  text: `${biking}`
+                                },
+                                {
+                                  type: "text",
+                                  text: "Min",
+                                  size: "sm",
+                                  color: "#aaaaaa"
+                                }
+                              ]
+                            }
+                          ],
+                          paddingAll: "xs"
                         },
                         {
                           type: "box",
@@ -272,8 +355,7 @@ const handleEvent = async (event) => {
                       ]
                     }
                   },
-                }
-                
+                }       
             ];
 
             await client.replyMessage(event.replyToken, replyMessage);
