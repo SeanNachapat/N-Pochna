@@ -20,7 +20,7 @@ This project is made for educational purposes as a senior project at Kasetsart U
 N'Pochna is a LINE Bot integrated with Edamam API to assist in managing diets and workouts.<br/>
 Made by Nachapat Iamphuang.
 
-## Installment
+## Installation
 
 ```sh
 $ npm install
